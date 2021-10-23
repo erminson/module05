@@ -1,5 +1,8 @@
 package ru.erminson.multithreading.synchronized_volatile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class AppVolatile {
     public static void main(String[] args) {
         TimerVolatile timer = new TimerVolatile();
@@ -7,18 +10,19 @@ public class AppVolatile {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
 
-        System.out.println("Timer value: " + timer.getValue());
+        log.info("Timer value: {}", timer.getValue());
         timer.stopTimer();
         try {
             timer.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             Thread.currentThread().interrupt();
         }
 
-        System.out.println("Timer value: " + timer.getValue());
+        log.info("Timer value: {}", timer.getValue());
     }
 }

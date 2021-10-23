@@ -1,5 +1,8 @@
 package ru.erminson.multithreading.synchronized_volatile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class AppSynchronized {
     public static void main(String[] args) {
         CounterSynchronized counter = new CounterSynchronized();
@@ -23,10 +26,10 @@ public class AppSynchronized {
             thread1.join();
             thread2.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             Thread.currentThread().interrupt();
         }
 
-        System.out.println("Counter value: " + counter.getValue());
+        log.info("Counter value: {}", counter.getValue());
     }
 }

@@ -1,5 +1,8 @@
 package ru.erminson.multithreading.threads;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MyThread extends Thread {
     private final String title;
     private final int count;
@@ -11,9 +14,9 @@ public class MyThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println(title);
+        log.info(title);
         for (int i = 0; i < count; i++) {
-            System.out.print(i + " ");
+            log.info("{}", i);
         }
     }
 }
