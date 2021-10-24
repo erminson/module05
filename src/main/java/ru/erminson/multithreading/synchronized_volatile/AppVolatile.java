@@ -2,6 +2,11 @@ package ru.erminson.multithreading.synchronized_volatile;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Volatile - запрещает кэшировать переменную.
+ * Переменная не сохраняется в локальную память потока.
+ */
+
 @Slf4j
 public class AppVolatile {
     public static void main(String[] args) {
