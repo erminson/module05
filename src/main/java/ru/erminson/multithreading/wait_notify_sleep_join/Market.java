@@ -1,4 +1,4 @@
-package ru.erminson.multithreading.wait_notify;
+package ru.erminson.multithreading.wait_notify_sleep_join;
 
 import lombok.extern.slf4j.Slf4j;
 
