@@ -6,21 +6,21 @@ import lombok.extern.slf4j.Slf4j;
 public class Consumer implements Runnable {
     private final BlockingQueue<Integer> blockingQueue;
     private final int count;
-    private final int frequency;
+    private final int time;
 
-    public Consumer(BlockingQueue<Integer> blockingQueue, int count, int frequency) {
+    public Consumer(BlockingQueue<Integer> blockingQueue, int count, int time) {
         this.blockingQueue = blockingQueue;
         this.count = count;
-        this.frequency = frequency;
+        this.time = time;
     }
 
     @Override
     public void run() {
         try {
             for (int i = 0; i < count; i++) {
-                Thread.sleep(frequency);
                 Integer item = blockingQueue.get();
                 log.info("-Get: {}", item);
+                Thread.sleep(time);
             }
         } catch (InterruptedException e) {
             log.error(e.getMessage());
