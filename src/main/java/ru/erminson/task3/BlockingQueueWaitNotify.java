@@ -40,8 +40,9 @@ public class BlockingQueueWaitNotify<T> implements BlockingQueue<T> {
             }
         }
 
+        T item = items.poll();
         notifyAll();
-        return items.poll();
+        return item;
     }
 
     @Override
