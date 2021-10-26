@@ -14,7 +14,8 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
     private final Queue<T> items = new LinkedList<>();
 
     private final Lock locker = new ReentrantLock();
-    private final Condition condition = locker.newCondition();
+    private final Condition fullCondition = locker.newCondition();
+    private final Condition emptyCondition = locker.newCondition();
 
     public BlockingQueueLock(int capacity) {
         this.capacity = capacity;
@@ -26,7 +27,7 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
         try {
             while (items.size() >= capacity) {
                 try {
-                    condition.await();
+                    fullCondition.await();
                 } catch (InterruptedException e) {
                     log.error(e.getMessage());
                     Thread.currentThread().interrupt();
@@ -34,7 +35,7 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
             }
 
             items.add(item);
-            condition.signalAll();
+            emptyCondition.signal();
         } finally {
             locker.unlock();
         }
@@ -46,14 +47,15 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
         try {
             while (items.isEmpty()) {
                 try {
-                    condition.await();
+                    emptyCondition.await();
                 } catch (InterruptedException e) {
                     log.error(e.getMessage());
                     Thread.currentThread().interrupt();
                 }
             }
-            condition.signalAll();
-            return items.poll();
+            T item = items.poll();
+            fullCondition.signal();
+            return item;
         } finally {
             locker.unlock();
         }
