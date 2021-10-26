@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AppBQWaitNotify {
     public static void main(String[] args) {
-        BlockingQueueWaitNotify<Integer> blockingQueue = new BlockingQueueWaitNotify<>(5);
+        BlockingQueue<Integer> blockingQueue = new BlockingQueueWaitNotify<>(5);
 
         int count = 10;
         Producer producer = new Producer(blockingQueue, count, 1000);
