@@ -1,0 +1,56 @@
+package ru.erminson.task3;
+
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+@Slf4j
+public class BlockingQueueWaitNotify<T> implements BlockingQueue<T> {
+    private final int capacity;
+    private final Queue<T> items = new LinkedList<>();
+
+    public BlockingQueueWaitNotify(int capacity) {
+        this.capacity = capacity;
+    }
+
+    @Override
+    public synchronized void put(T item) {
+        while (items.size() >= capacity) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        items.add(item);
+        notifyAll();
+    }
+
+    @Override
+    public synchronized T get() {
+        while (items.isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        notifyAll();
+        return items.poll();
+    }
+
+    @Override
+    public int size() {
+        return items.size();
+    }
+
+    @Override
+    public String toString() {
+        return items.toString();
+    }
+}
