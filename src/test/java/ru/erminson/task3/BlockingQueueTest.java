@@ -29,7 +29,7 @@ class BlockingQueueTest {
     @Test
     void testBlockingQueueWaitNotify() {
         Set<Integer> expectedSet = new LinkedHashSet<>(getIntegerList(COUNT));
-        BlockingQueue<Integer> blockingQueue = new BlockingQueueWaitNotify<>(3);
+        BlockingQueue<Integer> blockingQueue = new BlockingQueueWaitNotify<>(BLOCKING_QUEUE_CAPACITY);
         Set<Integer> actualSet = getUniqueSequences(blockingQueue);
 
         Assertions.assertEquals(expectedSet, actualSet);
