@@ -26,6 +26,7 @@ public class BlockingQueueWaitNotify<T> implements BlockingQueue<T> {
         }
 
         items.add(item);
+        log.debug("Put: {}, Queue: {}", item, this);
         notifyAll();
     }
 
@@ -41,6 +42,7 @@ public class BlockingQueueWaitNotify<T> implements BlockingQueue<T> {
         }
 
         T item = items.poll();
+        log.debug("Get: {}, Queue: {}", item, this);
         notifyAll();
         return item;
     }

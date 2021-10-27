@@ -35,7 +35,8 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
             }
 
             items.add(item);
-            emptyCondition.signal();
+            log.debug("Put: {}, Queue: {}", item, this);
+            emptyCondition.signalAll();
         } finally {
             locker.unlock();
         }
@@ -54,6 +55,7 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
                 }
             }
             T item = items.poll();
+            log.debug("Get: {}, Queue: {}", item, this);
             fullCondition.signal();
             return item;
         } finally {
@@ -64,5 +66,10 @@ public class BlockingQueueLock<T> implements BlockingQueue<T> {
     @Override
     public int size() {
         return items.size();
+    }
+
+    @Override
+    public String toString() {
+        return items.toString();
     }
 }
